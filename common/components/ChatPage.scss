@@ -9,6 +9,7 @@
 		flex-direction: column;
 		justify-content: space-between;
 		&>.header {
+			text-decoration: none;
 			background-color: var(--bg_color);
 			flex-shrink: 0;
 			position: relative;
@@ -44,6 +45,7 @@
 			flex-shrink: 2;
 			overflow-y: auto;
 			.message {
+				word-break: break-word;
 				box-sizing: border-box;
 				padding: 0.5rem 1rem;
 				margin: 1rem;

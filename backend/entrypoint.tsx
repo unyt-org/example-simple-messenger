@@ -40,6 +40,9 @@ export class Entrypoint {
 	static async getChat(endpointId: string): Promise<Chat | undefined> {
 		const other = new Datex.IdEndpoint(endpointId);
 		const me = datex.meta?.sender;
+		if (other === me)
+			throw new Error("You can't chat with yourself! Or can you?");
+			
 		const chat = me && chats.find((chat) => 
 			chat.members.includes(me) && 
 			chat.members.includes(other)
@@ -49,12 +52,10 @@ export class Entrypoint {
 
 	// The startChat backend function
 	private static async startChat(endpointId: string): Promise<Chat> {
-		const sender = datex.meta?.sender!;
+		const me = datex.meta?.sender!;
 		const other = new Datex.IdEndpoint(endpointId);
-		if (other === sender)
-			throw new Error("You can't chat with yourself! Or can you?");
-
-		const members = [other, sender];
+		
+		const members = [other, me];
 		const chat = $$({
 			id: (Math.random() * 1000).toString(),
 			createdAt: Datex.Time.now(),

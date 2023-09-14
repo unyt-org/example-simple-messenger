@@ -7,10 +7,13 @@ declare const DatexRuntime: any;
 @UIX.template(function(this: Overview) {
 	const chats = this.options.chats;
 	return <div>
-		<i onclick={UIX.inDisplayContext(()=>this.write())} class="write fa-solid fa-pen-to-square"/>
-		<h1 onclick={UIX.inDisplayContext(()=>{
-			navigator.clipboard.writeText(new URL("/".concat(DatexRuntime.endpoint.name), location.href).toString())
-		})}>@{DatexRuntime.endpoint.name}</h1>
+		<div class="header">
+			<i onclick={UIX.inDisplayContext(()=>this.write())} class="write fa-solid fa-pen-to-square"/>
+			<h1 onclick={UIX.inDisplayContext(()=>
+				navigator.clipboard.writeText(DatexRuntime.endpoint.name)
+			)}>@{DatexRuntime.endpoint.name}</h1>
+			<img src={`https://api.dicebear.com/7.x/identicon/svg?seed=${DatexRuntime.endpoint.name}`}/>
+		</div>
 		<>{
 			map(chats, (chat) => {
 				const other = chat.members?.find(e => e !== DatexRuntime.endpoint)!;

@@ -13,9 +13,9 @@ declare const DatexRuntime: any;
 		<a href="/" class="header">
 			<img src={`https://api.dicebear.com/7.x/identicon/svg?seed=${other.name}`}/>
 			<h1>@{other.name}</h1>
-			<span>{other.alias ?? ""}</span>
+			<span>{other.alias ?? "No Alias"}</span>
 		</a>
-		<div class="chat">
+		<div class="chat" id="chat">
 			{
 				map(this.options.chat.messages, (message) => 
 				message && 
@@ -39,6 +39,7 @@ export class ChatPage extends UIX.BaseComponent<UIX.BaseComponent.Options & {cha
 	/** references to the DOM elements */
 	@id declare send: HTMLElement;
 	@id declare message: HTMLInputElement;
+	@id declare chat: HTMLDivElement;
 
 	sendMessage() {
 		if (!this.canSend)
@@ -61,8 +62,20 @@ export class ChatPage extends UIX.BaseComponent<UIX.BaseComponent.Options & {cha
 	// Life-cycle method that is called when the component is displayed
 	protected override onDisplay(): void | Promise<void> {
 		console.info("The chat pointer", this.options.chat);
-		this.message.oninput = () => {
+		this.message.oninput = () =>
 			this.send.classList.toggle("active", this.canSend);
-		}
+
+		this.message.addEventListener("keydown", e => 
+			e.key === "Enter" && this.sendMessage()
+		);
+
+		this.options.$.chat.$.messages.observe(()=>this.scrollDown());
+		setTimeout(()=>this.scrollDown(), 400);
+	}
+	
+
+
+	private scrollDown() {
+		this.chat.scroll({ top: this.chat.scrollHeight, behavior: 'smooth' });
 	}
 }

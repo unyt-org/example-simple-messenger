@@ -17,6 +17,7 @@ export default {
 			console.error(error);
 			return <div class="error">
 				<h1>Oups, this endpoint does not exist!</h1>
+				<span>{error?.message ?? ''}</span>
 				<a href={"/"}>Go back</a>
 			</div>
 		}
