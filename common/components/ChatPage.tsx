@@ -1,21 +1,27 @@
 import { UIX } from "uix";
 import { type Chat } from "backend/entrypoint.tsx";
 import { map } from "unyt_core/functions.ts";
-import { always } from 'unyt_core/datex_short.ts';
+import { type Message } from 'backend/entrypoint.tsx';
+import { Datex } from "unyt_core/datex.ts";
+
+declare const DatexRuntime: any;
 
 @UIX.template(function(this: ChatPage) {
-	const messages = this.options.$.chat.$.messages;
+	const members = this.options.$.chat.$.members;
+	const other = members.val?.find(e => e !== DatexRuntime.endpoint)!;
 	return <div>
-		<div class="header">
-			<img src="https://vignette.wikia.nocookie.net/marvelcinematicuniverse/images/7/73/SMH_Mentor_6.png"/>
-			<h1>Jonas Strehle</h1>
-			<span>Today at 12:55</span>
-		</div>
+		<a href="/" class="header">
+			<img src={`https://api.dicebear.com/7.x/identicon/svg?seed=${other.name}`}/>
+			<h1>@{other.name}</h1>
+			<span>{other.alias ?? ""}</span>
+		</a>
 		<div class="chat">
 			{
-				map(this.options.chat.messages, (message, index) => 
+				map(this.options.chat.messages, (message) => 
 				message && 
-					<div class="message" data-sender={!!message.origin ?? false}>
+					<div 
+						class="message"
+						data-sender={message.origin === DatexRuntime.endpoint}>
 						{message.content}
 					</div>
 				)
@@ -24,25 +30,39 @@ import { always } from 'unyt_core/datex_short.ts';
 		<div class="input">
 			<i class="fas fa-camera"/>
 			<i class="far fa-laugh-beam"/>
-			<input placeholder="Text message" type="text"/>
-			<i id="send-button" class="fa fa-arrow-up"/>
+			<input id="message" placeholder="Text message" type="text"/>
+			<i onclick={UIX.inDisplayContext(()=>this.sendMessage())} id="send" class="fa fa-arrow-up"/>
 		</div>
 	</div>
 })
 export class ChatPage extends UIX.BaseComponent<UIX.BaseComponent.Options & {chat: Chat}> {
 	/** references to the DOM elements */
-	@id declare name: HTMLInputElement;
-	@id declare amount: HTMLInputElement;
-	@id declare type: HTMLOptionElement;
-	@id declare dialog: HTMLDivElement;
+	@id declare send: HTMLElement;
+	@id declare message: HTMLInputElement;
 
-	// Method that returns the internal route of the component
-	override getInternalRoute() {
-		return [globalThis.location.pathname]
+	sendMessage() {
+		if (!this.canSend)
+			return;
+		const message: Message = {
+			content: this.message.value.trim(),
+			timestamp: Datex.Time.now(),
+			origin: DatexRuntime.endpoint
+		};
+
+		this.options.chat.messages.push(message);
+		this.message.value = '';
+		this.message.dispatchEvent(new Event("input"));
+	}
+
+	get canSend() {
+		return this.message.value.trim().length > 0;
 	}
 
 	// Life-cycle method that is called when the component is displayed
 	protected override onDisplay(): void | Promise<void> {
-		console.info("The list pointer", this.options.chat)
+		console.info("The chat pointer", this.options.chat);
+		this.message.oninput = () => {
+			this.send.classList.toggle("active", this.canSend);
+		}
 	}
 }

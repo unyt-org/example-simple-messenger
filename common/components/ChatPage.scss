@@ -23,8 +23,12 @@
 			&>h1 {
 				font-weight: normal;
 				margin-bottom: 0px;
+				font-size: medium;
+				word-break: break-all;
 			}
 			&>img {
+				background-color: var(--bg_dark);
+				border: 2px solid var(--bg_input);
 				width: 4rem;
 				position: absolute;
 				left: 10px;
@@ -70,8 +74,7 @@
 				margin-right: 1rem;
 				color: #666;
 				cursor: pointer;
-				&#send-button {
-					background-color: var(--green);
+				&#send {
 					height: 36px;
 					border-radius: 100%;
 					display: flex;
@@ -79,6 +82,9 @@
 					align-items: center;
 					color: white;
 					width: 36px;
+					&.active {
+						background-color: var(--green);
+					}
 				}
 			}
 			input {
