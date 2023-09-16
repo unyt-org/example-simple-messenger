@@ -29,7 +29,7 @@ import { Datex } from "unyt_core/datex.ts";
 			<i class="fas fa-camera"/>
 			<i class="far fa-laugh-beam"/>
 			<input id="message" placeholder="Text message" type="text"/>
-			<i onclick={UIX.inDisplayContext(()=>this.sendMessage())} id="send" class="fa fa-arrow-up"/>
+			<i onclick={()=>this.sendMessage()} id="send" class="fa fa-arrow-up"/>
 		</div>
 	</div>
 })

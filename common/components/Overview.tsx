@@ -7,10 +7,10 @@ import { Datex } from "unyt_core/datex.ts";
 	const chats = this.options.chats;
 	return <div>
 		<div class="header">
-			<i onclick={UIX.inDisplayContext(()=>this.write())} class="write fa-solid fa-pen-to-square"/>
-			<h1 onclick={UIX.inDisplayContext(()=>
+			<i onclick={()=>this.write()} class="write fa-solid fa-pen-to-square"/>
+			<h1 onclick={()=>
 				navigator.clipboard.writeText(Datex.Runtime.endpoint.toString())
-			)}>{Datex.Runtime.endpoint.toString()}</h1>
+			}>{Datex.Runtime.endpoint.toString()}</h1>
 			<img src={`https://api.dicebear.com/7.x/identicon/svg?seed=${Datex.Runtime.endpoint.toString()}`}/>
 		</div>
 		{
