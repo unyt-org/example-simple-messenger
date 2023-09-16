@@ -20,9 +20,9 @@ export type Chat = {
 	messages: Message[]
 }
 
-// The backend endpoint definition
+// Chats interface exposed from endpoint
 @endpoint
-export class Entrypoint {
+export class Chats {
 
 	@property
 	// Exposing the getChats backend function
@@ -31,14 +31,14 @@ export class Entrypoint {
 		return chats
 			.filter(e => me && e.members.includes(me))
 			.sort((a, b) => (
-				+(b.messages.at(-1)?.timestamp || b.createdAt) - +(a.messages.at(-1)?.timestamp || a.createdAt)
+				Number(b.messages.at(-1)?.timestamp || b.createdAt) - Number(a.messages.at(-1)?.timestamp || a.createdAt)
 			));
 	}
 
 	@property
 	// Exposing the getChat backend function
 	static async getChat(endpointId: string): Promise<Chat | undefined> {
-		const other = new Datex.IdEndpoint(endpointId);
+		const other = Datex.Target.get(endpointId) as Datex.Endpoint;
 		const me = datex.meta?.sender;
 		if (other === me)
 			throw new Error("You can't chat with yourself! Or can you?");
@@ -53,7 +53,7 @@ export class Entrypoint {
 	// The startChat backend function
 	private static async startChat(endpointId: string): Promise<Chat> {
 		const me = datex.meta?.sender!;
-		const other = new Datex.IdEndpoint(endpointId);
+		const other = Datex.Target.get(endpointId) as Datex.Endpoint;
 		
 		const members = [other, me];
 		const chat = $$({

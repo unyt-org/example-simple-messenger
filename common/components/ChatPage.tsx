@@ -4,15 +4,13 @@ import { map } from "unyt_core/functions.ts";
 import { type Message } from 'backend/entrypoint.tsx';
 import { Datex } from "unyt_core/datex.ts";
 
-declare const DatexRuntime: any;
-
 @UIX.template(function(this: ChatPage) {
 	const members = this.options.$.chat.$.members;
-	const other = members.val?.find(e => e !== DatexRuntime.endpoint)!;
+	const other = members.val?.find(e => e !== Datex.Runtime.endpoint)!;
 	return <div>
 		<a href="/" class="header">
-			<img src={`https://api.dicebear.com/7.x/identicon/svg?seed=${other.name}`}/>
-			<h1>@{other.name}</h1>
+			<img src={`https://api.dicebear.com/7.x/identicon/svg?seed=${other.toString()}`}/>
+			<h1>{other.toString()}</h1>
 			<span>{other.alias ?? "No Alias"}</span>
 		</a>
 		<div class="chat" id="chat">
@@ -21,7 +19,7 @@ declare const DatexRuntime: any;
 				message && 
 					<div 
 						class="message"
-						data-sender={message.origin === DatexRuntime.endpoint}>
+						data-sender={message.origin === Datex.Runtime.endpoint}>
 						{message.content}
 					</div>
 				)
@@ -47,7 +45,7 @@ export class ChatPage extends UIX.BaseComponent<UIX.BaseComponent.Options & {cha
 		const message: Message = {
 			content: this.message.value.trim(),
 			timestamp: Datex.Time.now(),
-			origin: DatexRuntime.endpoint
+			origin: Datex.Runtime.endpoint
 		};
 
 		this.options.chat.messages.push(message);
