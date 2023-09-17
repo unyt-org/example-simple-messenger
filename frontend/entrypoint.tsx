@@ -6,10 +6,9 @@ import { Overview } from 'common/components/Overview.tsx';
 
 export default {
 	'/': async() => <Overview chats={await Entrypoint.getChats()}/>,
-	'/:id': async(ctx) => {
-		const id = ctx.urlMatch.get("id") ?? "unyt";
+	'/:id': async(_, {id}) => {
 		try {
-			const chat = await Entrypoint.getChat(id);
+			const chat = await Entrypoint.getChat(id ?? "unyt");
 			if (!chat)
 				throw new Error("Chat not found!");
 			return <ChatPage chat={chat}/> // render the chat component
