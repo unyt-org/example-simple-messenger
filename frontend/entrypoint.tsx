@@ -1,4 +1,4 @@
-import { UIX } from "uix/uix.ts";
+import { Entrypoint } from "uix/html/entrypoints.ts";
 import { Chats } from "backend/entrypoint.tsx";
 import { ChatPage } from "common/components/ChatPage.tsx";
 import "common/theme.ts";
@@ -23,4 +23,4 @@ export default {
 			)
 		}
 	}
-} satisfies UIX.Entrypoint;
+} satisfies Entrypoint;

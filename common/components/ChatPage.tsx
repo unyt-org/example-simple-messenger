@@ -1,10 +1,11 @@
-import { UIX } from "uix";
 import { type Chat } from "backend/entrypoint.tsx";
 import { map } from "unyt_core/functions.ts";
 import { type Message } from 'backend/entrypoint.tsx';
 import { Datex } from "unyt_core/datex.ts";
+import { Component } from 'uix/components/Component.ts';
+import { template } from "uix/html/template.ts";
 
-@UIX.template(function(this: ChatPage) {
+@template(function(this: ChatPage) {
 	const members = this.options.$.chat.$.members;
 	const other = members.val?.find(e => e !== Datex.Runtime.endpoint)!;
 	return <div>
@@ -33,7 +34,7 @@ import { Datex } from "unyt_core/datex.ts";
 		</div>
 	</div>
 })
-export class ChatPage extends UIX.BaseComponent<UIX.BaseComponent.Options & {chat: Chat}> {
+export class ChatPage extends Component<Component.Options & {chat: Chat}> {
 	/** references to the DOM elements */
 	@id declare send: HTMLElement;
 	@id declare message: HTMLInputElement;
@@ -60,12 +61,12 @@ export class ChatPage extends UIX.BaseComponent<UIX.BaseComponent.Options & {cha
 	// Life-cycle method that is called when the component is displayed
 	protected override onDisplay(): void | Promise<void> {
 		console.info("The chat pointer", this.options.chat);
-		this.message.oninput = () =>
+		this.message.addEventListener("input", () => {
 			this.send.classList.toggle("active", this.canSend);
-
-		this.message.addEventListener("keydown", e => 
+		});
+		this.message.addEventListener("keydown", (e) => {
 			e.key === "Enter" && this.sendMessage()
-		);
+		});
 
 		this.options.$.chat.$.messages.observe(()=>this.scrollDown());
 		setTimeout(()=>this.scrollDown(), 400);

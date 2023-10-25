@@ -1,9 +1,10 @@
-import { UIX } from "uix";
 import { type Chat } from "backend/entrypoint.tsx";
 import { map } from "unyt_core/functions.ts";
 import { Datex } from "unyt_core/datex.ts";
+import { template } from "uix/html/template.ts";
+import { Component } from "uix/components/Component.ts";
 
-@UIX.template(function(this: Overview) {
+@template(function(this: Overview) {
 	const chats = this.options.chats;
 	return <div>
 		<div class="header">
@@ -38,7 +39,7 @@ import { Datex } from "unyt_core/datex.ts";
 		
 	</div>
 })
-export class Overview extends UIX.BaseComponent<UIX.BaseComponent.Options & {chats: Chat[]}> {
+export class Overview extends Component<Component.Options & {chats: Chat[]}> {
 	private write() {
 		const endpointId = prompt("Write a message to", "");
 		if (endpointId)
