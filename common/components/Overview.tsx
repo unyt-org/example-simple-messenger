@@ -6,7 +6,7 @@ import { Component } from "uix/components/Component.ts";
 
 @template(function(this: Overview) {
 	const chats = this.options.chats;
-	return <div>
+	return <div _debug>
 		<div class="header">
 			<i onclick={()=>this.write()} class="write fa-solid fa-pen-to-square"/>
 			<h1 onclick={()=>

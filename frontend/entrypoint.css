@@ -1,3 +1,6 @@
+body {
+	margin: 0;
+}
 .error {
 	display: flex;
 	align-items: center;

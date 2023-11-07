@@ -4,9 +4,6 @@
 		flex-direction: column;
 		width: 100%;
 		margin-top: 30px;
-		overflow-y: scroll;
-		position: absolute;
-		height: calc(100% - 20px);
 		.write {
 			font-size: xx-large;
 		}
@@ -113,7 +110,6 @@
 				white-space: break-word;
 				font-size: medium;
 				margin-bottom: 0;
-				width: 80%;
 			}
 		}
 	}
