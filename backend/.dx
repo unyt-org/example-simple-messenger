@@ -9,5 +9,5 @@ location: stage {
 },
 
 domain: stage {
-	prod: 'messenger.unyt.app'
+	prod: 'messenger.example.unyt.org'
 }
