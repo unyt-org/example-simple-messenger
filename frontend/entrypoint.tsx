@@ -1,7 +1,6 @@
 import { Entrypoint } from "uix/html/entrypoints.ts";
 import { Chats } from "backend/entrypoint.tsx";
 import { ChatPage } from "common/components/ChatPage.tsx";
-import "common/theme.ts";
 import { Overview } from 'common/components/Overview.tsx';
 
 export default {

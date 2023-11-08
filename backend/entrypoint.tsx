@@ -1,5 +1,4 @@
 // deno-lint-ignore-file require-await
-import "common/theme.ts";
 import { Datex } from "unyt_core/datex.ts";
 
 // Our chat list
