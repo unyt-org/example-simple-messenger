@@ -15,7 +15,7 @@ The repository includes persistent data storage and implements [front-end](https
 	```
 3. Run the project local
 	```bash
-	$ uix -wlb --port 8000
+	$ uix --port 8000
 	```
 4. Navigate to your favourite web browser and open http://localhost:8000 to see everything in action. 
 
