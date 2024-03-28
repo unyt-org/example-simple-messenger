@@ -34,11 +34,11 @@ import { template } from "uix/html/template.ts";
 		</div>
 	</div>
 })
-export class ChatPage extends Component<Component.Options & {chat: Chat}> {
-	/** references to the DOM elements */
-	@id declare send: HTMLElement;
-	@id declare message: HTMLInputElement;
-	@id declare chat: HTMLDivElement;
+export class ChatPage extends Component<{chat: Chat}> {
+	/* references to the DOM elements */
+	@id send!: HTMLElement;
+	@id message!: HTMLInputElement;
+	@id chat!: HTMLDivElement;
 
 	sendMessage() {
 		if (!this.canSend)
@@ -72,8 +72,6 @@ export class ChatPage extends Component<Component.Options & {chat: Chat}> {
 		setTimeout(()=>this.scrollDown(), 400);
 	}
 	
-
-
 	private scrollDown() {
 		this.chat.scroll({ top: this.chat.scrollHeight, behavior: 'smooth' });
 	}

@@ -39,7 +39,7 @@ import { Component } from "uix/components/Component.ts";
 		
 	</div>
 })
-export class Overview extends Component<Component.Options & {chats: Chat[]}> {
+export class Overview extends Component<{chats: Chat[]}> {
 	private write() {
 		const endpointId = prompt("Write a message to", "");
 		if (endpointId)

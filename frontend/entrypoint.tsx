@@ -5,7 +5,9 @@ import { Overview } from 'common/components/Overview.tsx';
 
 export default {
 	'/': async () => <Overview chats={await Chats.getChats()}/>,
-	'/:id': async (_, { id }) => {
+	'*': async (ctx) => {
+		const id = decodeURIComponent(ctx.path).slice(1);
+		console.log(id)
 		try {
 			const chat = await Chats.getChat(id ?? "unyt");
 			if (!chat)
