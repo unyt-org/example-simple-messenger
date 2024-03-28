@@ -29,7 +29,7 @@ We split our code base in [back-end](https://unyt.org/glossary#back-end), [front
     │   ├── .dx                 // Config file for deployment
     │   └── entrypoint.tsx      // Back-end entrypoint
     ├── common/
-    │   └── compoments/
+    │   └── components/
     │       ├── ChatPage.scss   // Chat style declaration
     │       ├── ChatPage.tsx    // Chat component
     │       ├── Overview.scss   // Overview style declaration
