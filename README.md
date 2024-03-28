@@ -61,4 +61,4 @@ To provide a seamless experience, our messenger app also demonstrates how to per
 
 ---
 
-<sub>&copy; unyt 2023 • [unyt.org](https://unyt.org)</sub>
+<sub>&copy; unyt 2024 • [unyt.org](https://unyt.org)</sub>
