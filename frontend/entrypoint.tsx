@@ -1,4 +1,4 @@
-import { Entrypoint } from "uix/html/entrypoints.ts";
+import { Entrypoint } from "uix/providers/entrypoints.ts";
 import { Chats } from "backend/entrypoint.tsx";
 import { ChatPage } from "common/components/ChatPage.tsx";
 import { Overview } from 'common/components/Overview.tsx';
@@ -18,7 +18,7 @@ export default {
 			return (
 				<div class="error">
 					<h1>Oups, this endpoint does not exist!</h1>
-					<span>{error?.message ?? ''}</span>
+					<span>{(error as Error)?.message ?? ''}</span>
 					<a href={"/"}>Go back</a>
 				</div>
 			)

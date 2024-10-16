@@ -1,12 +1,13 @@
 import { type Chat } from "backend/entrypoint.tsx";
-import { map } from "unyt_core/functions.ts";
+import { map } from "datex-core-legacy/functions.ts";
 import { type Message } from 'backend/entrypoint.tsx';
-import { Datex } from "unyt_core/datex.ts";
+import { Datex } from "datex-core-legacy/datex.ts";
 import { Component } from 'uix/components/Component.ts';
 import { template } from "uix/html/template.ts";
+import type { Ref } from "datex-core-legacy/datex_all.ts";
 
 @template(function(this: ChatPage) {
-	const members = this.options.$.chat.$.members;
+	const members = this.properties.chat.$.members;
 	const other = members.val?.find(e => e !== Datex.Runtime.endpoint)!;
 	return <div>
 		<a href="/" class="header">
@@ -16,7 +17,7 @@ import { template } from "uix/html/template.ts";
 		</a>
 		<div class="chat" id="chat">
 			{
-				map(this.options.chat.messages, (message) => 
+				map(this.properties.chat.messages, (message) => 
 				message && 
 					<div 
 						class="message"
@@ -34,7 +35,7 @@ import { template } from "uix/html/template.ts";
 		</div>
 	</div>
 })
-export class ChatPage extends Component<{chat: Chat}> {
+export class ChatPage extends Component<{chat: Ref<Chat>}> {
 	/* references to the DOM elements */
 	@id send!: HTMLElement;
 	@id message!: HTMLInputElement;
@@ -49,7 +50,7 @@ export class ChatPage extends Component<{chat: Chat}> {
 			origin: Datex.Runtime.endpoint
 		};
 
-		this.options.chat.messages.push(message);
+		this.properties.chat.messages.push(message);
 		this.message.value = '';
 		this.message.dispatchEvent(new Event("input"));
 	}
@@ -60,7 +61,7 @@ export class ChatPage extends Component<{chat: Chat}> {
 
 	// Life-cycle method that is called when the component is displayed
 	protected override onDisplay(): void | Promise<void> {
-		console.info("The chat pointer", this.options.chat);
+		console.info("The chat pointer", this.properties.chat);
 		this.message.addEventListener("input", () => {
 			this.send.classList.toggle("active", this.canSend);
 		});
@@ -68,7 +69,7 @@ export class ChatPage extends Component<{chat: Chat}> {
 			e.key === "Enter" && this.sendMessage()
 		});
 
-		this.options.$.chat.$.messages.observe(()=>this.scrollDown());
+		this.properties.chat.$.messages.observe(()=>this.scrollDown());
 		setTimeout(()=>this.scrollDown(), 400);
 	}
 	

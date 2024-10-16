@@ -1,8 +1,8 @@
 // deno-lint-ignore-file require-await
-import { Datex } from "unyt_core/datex.ts";
+import { Datex } from "datex-core-legacy/datex.ts";
 
 // Our chat list
-const chats: Chat[] = eternalVar("chats") ?? $$([]);
+const chats: Chat[] = eternalVar("chats") ?? $([]);
 
 // The message definition
 export type Message = {
@@ -26,7 +26,7 @@ export class Chats {
 	@property
 	// Exposing the getChats backend function
 	static async getChats(): Promise<Chat[]> {
-		const me = datex.meta?.sender;
+		const me = datex.meta?.caller;
 		return chats
 			.filter(e => me && e.members.includes(me))
 			.sort((a, b) => (
@@ -38,7 +38,7 @@ export class Chats {
 	// Exposing the getChat backend function
 	static async getChat(endpointId: string): Promise<Chat | undefined> {
 		const other = Datex.Target.get(endpointId) as Datex.Endpoint;
-		const me = datex.meta?.sender;
+		const me = datex.meta?.caller;
 		if (other === me)
 			throw new Error("You can't chat with yourself! Or can you?");
 			
@@ -51,15 +51,15 @@ export class Chats {
 
 	// The startChat backend function
 	private static async startChat(endpointId: string): Promise<Chat> {
-		const me = datex.meta?.sender!;
+		const me = datex.meta?.caller!;
 		const other = Datex.Target.get(endpointId) as Datex.Endpoint;
 		
 		const members = [other, me];
-		const chat = $$({
+		const chat = $({
 			id: (Math.random() * 1000).toString(),
 			createdAt: Datex.Time.now(),
 			members,
-			messages: $$([])
+			messages: $([])
 		});
 		chats.push(chat);
 		return chat;
