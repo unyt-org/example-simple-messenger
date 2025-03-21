@@ -1,13 +1,13 @@
 body {
-	margin: 0;
+  margin: 0;
 }
 .error {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	text-align: center;
-	flex-direction: column;
-	height: 100%;
-	max-width: 90%;
-	margin: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  flex-direction: column;
+  height: 100%;
+  max-width: 90%;
+  margin: auto;
 }
