@@ -3,7 +3,7 @@
   "importMap": "./.datex-cache/importmap.lock.json",
   "compilerOptions": {
     "jsx": "react-jsx",
-    "jsxImportSource": "uix",
+    "jsxImportSource": "jusix",
     "lib": [
       "deno.window",
       "dom"
