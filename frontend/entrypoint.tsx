@@ -4,7 +4,10 @@ import { ChatPage } from "common/components/ChatPage.tsx";
 import { Overview } from "common/components/Overview.tsx";
 
 export default {
-  "/": async () => <Overview chats={await Chats.getChats()} />,
+  "/": async () => {
+    const chats = await Chats.getChats();
+    return <Overview chats={chats} />;
+  },
   "*": async (ctx) => {
     const id = decodeURIComponent(ctx.path).slice(1);
     console.log(id);
@@ -13,6 +16,7 @@ export default {
       if (!chat) {
         throw new Error("Chat not found!");
       }
+      console.log(chat);
       return <ChatPage chat={chat} />; // render the chat component
     } catch (error) {
       console.error(error);

@@ -7,8 +7,8 @@ import { template } from "uix/html/template.ts";
 import type { Ref } from "datex-core-legacy/datex_all.ts";
 
 @template(function () {
-  const members = this.properties.chat.$.members;
-  const other = members.val?.find((e) => e !== Datex.Runtime.endpoint)!;
+  const members = this.properties.chat.members;
+  const other = members?.find((e) => e !== Datex.Runtime.endpoint)!;
   console.log(this.properties);
 
   return (
@@ -21,7 +21,7 @@ import type { Ref } from "datex-core-legacy/datex_all.ts";
         <span>{other.alias ?? "No Alias"}</span>
       </a>
       <div class="chat" id="chat">
-        {map(val(this.properties.chat).messages, (message) =>
+        {this.properties.chat.messages.map((message) =>
           message &&
           (
             <div
@@ -30,7 +30,8 @@ import type { Ref } from "datex-core-legacy/datex_all.ts";
             >
               {message.content}
             </div>
-          ))}
+          )
+        )}
       </div>
       <div class="input">
         <i class="fas fa-camera" />
@@ -45,7 +46,7 @@ import type { Ref } from "datex-core-legacy/datex_all.ts";
     </div>
   );
 })
-export class ChatPage extends Component<{ chat: Ref<Chat> }> {
+export class ChatPage extends Component<{ chat: Chat }> {
   /* references to the DOM elements */
   @id
   send!: HTMLElement;
@@ -63,7 +64,7 @@ export class ChatPage extends Component<{ chat: Ref<Chat> }> {
       timestamp: Datex.Time.now(),
       origin: Datex.Runtime.endpoint,
     };
-    val(this.properties.chat).messages.push(message);
+    this.properties.chat.messages.push(message);
     this.message.value = "";
     this.message.dispatchEvent(new Event("input"));
   }
@@ -82,7 +83,10 @@ export class ChatPage extends Component<{ chat: Ref<Chat> }> {
       e.key === "Enter" && this.sendMessage();
     });
 
-    this.properties.chat.$.messages.observe(() => this.scrollDown());
+    effect(() => {
+      val(this.properties.chat.messages);
+      this.scrollDown();
+    });
     setTimeout(() => this.scrollDown(), 400);
   }
 

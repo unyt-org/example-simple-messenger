@@ -4,7 +4,7 @@ import { Datex } from "datex-core-legacy/datex.ts";
 import { template } from "uix/html/template.ts";
 import { Component } from "uix/components/Component.ts";
 
-@template(function (this: Overview) {
+@template(function () {
   const chats = this.properties.chats;
   return (
     <div>
@@ -36,11 +36,11 @@ import { Component } from "uix/components/Component.ts";
               <span data-empty={!latestMessage}>
                 {latestMessage
                   ? (
-                    <>
+                    <uix-fragment>
                       {latestMessage.origin !== other
                         ? <span>You:</span>
                         : undefined} {latestMessage!.content}
-                    </>
+                    </uix-fragment>
                   )
                   : "No messages..."}
               </span>
@@ -65,6 +65,6 @@ export class Overview extends Component<{ chats: Chat[] }> {
 
   // Life-cycle method that is called when the component is displayed
   protected override onDisplay() {
-    console.info("The chats pointer", this.options.chats);
+    console.info("The chats pointer", this.properties.chats);
   }
 }
